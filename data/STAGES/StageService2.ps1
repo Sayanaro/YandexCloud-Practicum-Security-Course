@@ -7,14 +7,9 @@ New-ADUser -Name "Sonya Blade" -Accountpassword $SecurePassword -Enabled $true -
 New-ADUser -Name "Johnny Cage" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "jcage" -DisplayName "Johnny Cage" -Surname "Cage" -GivenName "Johnny" -PasswordNeverExpires $true -UserPrincipalName "jcage@yp-lab.edu" -Description "Network administrator" -ErrorAction SilentlyContinue
 New-ADUser -Name "Hanzo Hasashi" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "scorpion" -DisplayName "Hanzo Hasashi" -Surname "Hasashi" -GivenName "Hanzo" -PasswordNeverExpires $true -UserPrincipalName "scorpion@yp-lab.edu" -Description "Cloud owner" -ErrorAction SilentlyContinue
 New-ADUser -Name "Kuai Liang" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "sub-zero" -DisplayName "Kuai Liang" -Surname "Liang" -GivenName "Kuai" -PasswordNeverExpires $true -UserPrincipalName "sub-zero@yp-lab.edu" -Description "System administrator" -ErrorAction SilentlyContinue
+New-ADUser -Name "Sonya Blade" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "sblade" -DisplayName "Sonya Blade" -Surname "Blade" -GivenName "Sonya" -PasswordNeverExpires $true -UserPrincipalName "sblade@yp-lab.edu" -Description "Security officer" -ErrorAction SilentlyContinue
 
-<#
-Start-BitsTransfer -Source "https://storage.yandexcloud.net/securitylab/RootCA.cer" -Destination "C:\Stages"
-Start-BitsTransfer -Source "https://storage.yandexcloud.net/securitylab/SubCA.cer" -Destination "C:\Stages"
-Start-BitsTransfer -Source "https://storage.yandexcloud.net/securitylab/adfs.pfx" -Destination "C:\Stages"
-Start-BitsTransfer -Source "https://storage.yandexcloud.net/securitylab/SubCA.crl" -Destination "C:\Stages"
-Start-BitsTransfer -Source "https://storage.yandexcloud.net/securitylab/SubCA+.crl" -Destination "C:\Stages"
-#>
+
 Start-Sleep 1
 Import-Certificate -FilePath C:\Stages\RootCA.cer -CertStoreLocation Cert:\LocalMachine\Root\
 Import-Certificate -FilePath C:\Stages\SubCA.cer -CertStoreLocation Cert:\LocalMachine\CA\
@@ -70,5 +65,7 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
 
 reg delete HKLM\System\CurrentControlSet\Services\StageService\Parameters\ /v Application /f
 reg add HKLM\System\CurrentControlSet\Services\StageService\Parameters\ /v Application /t REG_SZ /d C:\Stages\StageService3.bat
+
+Start-Sleep 30
 
 shutdown -r -t 0

@@ -20,14 +20,14 @@ if (!(Test-Path `"C:\Stages`")) {
     `$outNull = New-Item -Path `"C:\`" -Name Stages -ItemType Directory
 }
 
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/srvany.exe`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/StageService3.ps1`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/StageService2.ps1`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/RootCA.cer`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA.cer`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/adfs.pfx`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA.crl`" -Destination `"C:\Stages`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA+.crl`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/srvany.exe`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/STAGES/StageService3.ps1`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/STAGES/StageService2.ps1`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/RootCA.cer`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA.cer`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/adfs.pfx`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA.crl`" -Destination `"C:\Stages`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA+.crl`" -Destination `"C:\Stages`"
 
 `$outScript = `"powershell.exe -ExecutionPolicy Bypass -File C:\Stages\StageService3.ps1`"
 `$outScript | Out-File -FilePath `"C:\Stages\StageService3.bat`" -Encoding ascii -Confirm:`$false -Force

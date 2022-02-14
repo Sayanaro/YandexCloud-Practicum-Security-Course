@@ -32,10 +32,10 @@ if (!(Test-Path `"C:\Work`")) {
 `$outNull = Remove-NetIPAddress -InterfaceIndex `$IPAddress.InterfaceIndex -Confirm:`$false
 `$outNull = New-NetIPAddress -IPAddress `$IPAddress.IPAddress -DefaultGateway `$Gateway.NextHop -PrefixLength `$IPAddress.PrefixLength -InterfaceIndex `$IPAddress.InterfaceIndex
 `$outNull = Set-DNSClientServerAddress -InterfaceIndex `$IPAddress.InterfaceIndex -ServerAddresses `"$ADDSIP`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/RootCA.cer`" -Destination `"C:\work`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA.cer`" -Destination `"C:\work`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA.crl`" -Destination `"C:\work`"
-Start-BitsTransfer -Source `"https://storage.yandexcloud.net/securitylab/SubCA+.crl`" -Destination `"C:\work`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/RootCA.cer`" -Destination `"C:\work`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA.cer`" -Destination `"C:\work`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA.crl`" -Destination `"C:\work`"
+Start-BitsTransfer -Source `"https://raw.githubusercontent.com/Sayanaro/YandexCloud-Prcticum-Security-Course/master/data/SubCA+.crl`" -Destination `"C:\work`"
 
 Import-Certificate -FilePath C:\work\RootCA.cer -CertStoreLocation Cert:\LocalMachine\Root\
 Import-Certificate -FilePath C:\work\SubCA.cer -CertStoreLocation Cert:\LocalMachine\CA\
@@ -54,6 +54,15 @@ Start-BitsTransfer -Source `"http://dl.google.com/chrome/install/375.126/chrome_
 cd C:\work\
 .\chrome_installer.exe /silent /install
 Add-WindowsFeature RSAT-AD-Tools,RSAT-DNS-Server -IncludeAllSubFeature -Confirm:`$false
+
+`$Resolve = Resolve-DnsName -Name `"fs.yp-lab.edu`" -ErrorAction SilentlyContinue
+
+if(!`$Resolve) {
+    while(!`$Resolve) {
+        Start-Sleep 5
+        `$Resolve = Resolve-DnsName -Name `"fs.yp-lab.edu`" -ErrorAction SilentlyContinue
+    }
+}
 
 `$AdminPassword = ConvertTo-SecureString `"$MyAdministratorPlainTextPassword`" -AsPlainText -Force
 [pscredential]`$Cred = New-Object System.Management.Automation.PSCredential (`"yp-lab\Administrator`", `$AdminPassword)
