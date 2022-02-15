@@ -1,9 +1,3 @@
-#Generate password
-resource "random_password" "passwords" {
-  count   = 1
-  length  = 20
-  special = true
-}
 data "yandex_compute_image" "default" {
   family = var.image_family
 } 
@@ -115,9 +109,5 @@ output "ws_address" {
   value = yandex_compute_instance.ws.network_interface.0.nat_ip_address
 }
 
-output "admin_password" {
-  value = random_password.passwords[0].result
-  sensitive = true
-}
 
 
