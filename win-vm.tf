@@ -16,6 +16,7 @@ resource "yandex_compute_instance" "adds" {
   name     = var.adds_name
   hostname = var.adds_name
   zone     = var.zone
+  platform_id = var.platform_id
 
   resources {
     cores  = var.cores
@@ -64,6 +65,7 @@ resource "yandex_compute_instance" "ws" {
   name     = var.ws_name
   hostname = var.ws_name
   zone     = var.zone
+  platform_id = var.platform_id
 
   resources {
     cores  = var.cores

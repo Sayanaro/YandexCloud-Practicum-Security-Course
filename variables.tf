@@ -44,6 +44,11 @@ variable "image_id" {
   default = "fd8aic46uv4b9nc3pqt7"
 }
 
+variable "platform_id" {
+  type    = string
+  default = "standard-v3"
+}
+
 variable "adds_name" {
   type    = string
 }
