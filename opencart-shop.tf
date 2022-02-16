@@ -8,6 +8,7 @@ resource "yandex_compute_instance" "opencart-vm" {
   name     = "opencartshop"
   hostname = "opencartshop"
   zone     = var.zone
+  platform_id = var.platform_id
 
   resources {
     cores  = var.cores
