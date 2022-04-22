@@ -1,8 +1,8 @@
 Start-Transcript -Path "$ENV:SystemDrive\Stage3.txt" -IncludeInvocationHeader -Force
 "Bootstrap script started" | Write-Host
 
-`$IPAddress = Get-NetIPAddress -AddressFamily IPv4 | where {`$_.InterfaceAlias -notlike `"*Loopback*`"}
-`$outNull = Set-DNSClientServerAddress -InterfaceIndex `$IPAddress.InterfaceIndex -ServerAddresses `"127.0.0.1`",`$IPAddress.IPAddress
+$IPAddress = Get-NetIPAddress -AddressFamily IPv4 | where {$_.InterfaceAlias -notlike "*Loopback*"}
+$outNull = Set-DNSClientServerAddress -InterfaceIndex $IPAddress.InterfaceIndex -ServerAddresses "127.0.0.1",$IPAddress.IPAddress
 
 Import-Module ActiveDirectory
 
