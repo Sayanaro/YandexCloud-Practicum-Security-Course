@@ -1,3 +1,6 @@
+Start-Transcript -Path "$ENV:SystemDrive\Stage2.txt" -IncludeInvocationHeader -Force
+"Bootstrap script started" | Write-Host
+
 $DomainDN = (Get-ADDomain -Current LoggedOnUser -ErrorAction SilentlyContinue).DistinguishedName
 $outNull = New-ADOrganizationalUnit -Name "Org" -Path $DomainDN -ErrorAction SilentlyContinue
 
@@ -33,7 +36,9 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
     Param (
         $DomainDN
     )
-
+    Start-Transcript -Path "$ENV:SystemDrive\Stage2inv.txt" -IncludeInvocationHeader -Force
+    "Bootstrap script started" | Write-Host
+    
     $Thumbprint = (Get-ChildItem Cert:\localmachine\My\ | where {$_.Subject -like "*fs.yp-lab.edu*"}).Thumbprint
     $ADFSName = "YP-LAB ADFS"
     $FSName = "fs.yp-lab.edu"
@@ -49,7 +54,7 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
     $gMSAOU  | Out-File -FilePath "C:\Stages\OU.txt" -Confirm:$false -Force
     $LocalHostname | Out-File -FilePath "C:\Stages\OU.txt" -Append -Confirm:$false -Force
     $FQDN | Out-File -FilePath "C:\Stages\OU.txt" -Append -Confirm:$false -Force
-    
+
     #Creating new group managed service account
     Add-KdsRootKey -EffectiveTime ((get-date).addhours(-10))
     New-ADServiceAccount -Name $ADServiceAccountName -Enabled $true -Path $gMSAOU -DNSHostName $FSName -PrincipalsAllowedToRetrieveManagedPassword $LocalHostname"$"
@@ -66,11 +71,12 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
     # Installing and configuring ADDS
     $outNull = Install-WindowsFeature ADFS-Federation -IncludeAllSubFeature -IncludeManagementTools -Confirm:$false
     Install-AdfsFarm -CertificateThumbprint $Thumbprint -FederationServiceDisplayName $ADFSName -FederationServiceName $FSName -GroupServiceAccountIdentifier "yp-lab\ADFSgMSAccount$"
+    "Bootstrap script ended" | Write-Host
 }
 
 reg delete HKLM\System\CurrentControlSet\Services\StageService\Parameters\ /v Application /f
 reg add HKLM\System\CurrentControlSet\Services\StageService\Parameters\ /v Application /t REG_SZ /d C:\Stages\StageService3.bat
-
+"Bootstrap script ended" | Write-Host
 Start-Sleep 30
 
 shutdown -r -t 0
