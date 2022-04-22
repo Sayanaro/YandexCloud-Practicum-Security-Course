@@ -45,6 +45,8 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
     $ADServiceAccountName = "ADFSgMSAccount"
     $gMSAOU = "CN=Managed Service Accounts,$DomainDN"
 
+    $DomainDN | Out-File -FilePath "C:\Stages\DN.txt" -Confirm:$false -Force
+    $ADServiceAccountName | Out-File -FilePath "C:\Stages\DN.txt" -Confirm:$false -Force
     #Creating new group managed service account
     Add-KdsRootKey -EffectiveTime ((get-date).addhours(-10))
     New-ADServiceAccount -Name $ADServiceAccountName -Enabled $true -Path $gMSAOU -DNSHostName $FSName -PrincipalsAllowedToRetrieveManagedPassword $LocalHostname"$"
