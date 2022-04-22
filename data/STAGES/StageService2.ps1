@@ -1,5 +1,6 @@
 Start-Transcript -Path "$ENV:SystemDrive\Stage2.txt" -IncludeInvocationHeader -Force
 "Bootstrap script started" | Write-Host
+Import-Module ActiveDirectory
 
 $DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
 if(!$DomainDN) {
@@ -12,7 +13,7 @@ if(!$DomainDN) {
 $outNull = New-ADOrganizationalUnit -Name "Org" -Path $DomainDN -ErrorAction SilentlyContinue
 
 $SecurePassword = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
-Start-Sleep 15
+
 New-ADUser -Name "Sonya Blade" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "sblade" -DisplayName "Sonya Blade" -Surname "Blade" -GivenName "Sonya" -PasswordNeverExpires $true -UserPrincipalName "sblade@yp-lab.edu" -Description "Security officer" -ErrorAction SilentlyContinue
 New-ADUser -Name "Johnny Cage" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "jcage" -DisplayName "Johnny Cage" -Surname "Cage" -GivenName "Johnny" -PasswordNeverExpires $true -UserPrincipalName "jcage@yp-lab.edu" -Description "Network administrator" -ErrorAction SilentlyContinue
 New-ADUser -Name "Hanzo Hasashi" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "scorpion" -DisplayName "Hanzo Hasashi" -Surname "Hasashi" -GivenName "Hanzo" -PasswordNeverExpires $true -UserPrincipalName "scorpion@yp-lab.edu" -Description "Cloud owner" -ErrorAction SilentlyContinue
