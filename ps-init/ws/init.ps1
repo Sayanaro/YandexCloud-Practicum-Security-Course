@@ -42,13 +42,6 @@ Import-Certificate -FilePath C:\work\SubCA.cer -CertStoreLocation Cert:\LocalMac
 certutil -addstore -f CA C:\work\SubCA.crl
 certutil -addstore -f CA C:\work\SubCA+.crl
 
-`$Resolve = Resolve-DnsName -Name `"fs.yp-lab.edu`" -ErrorAction SilentlyContinue
-
-while(!`$Resolve) {
-    Start-Sleep 5
-    `$Resolve = Resolve-DnsName -Name `"fs.yp-lab.edu`" -ErrorAction SilentlyContinue
-}
-
 Add-LocalGroupMember -Group `"Remote Desktop Users`" -Member `"NT AUTHORITY\Authenticated Users`"
 Start-BitsTransfer -Source `"http://dl.google.com/chrome/install/375.126/chrome_installer.exe`" -Destination `"C:\Work`"
 cd C:\work\

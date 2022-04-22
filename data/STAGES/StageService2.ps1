@@ -1,8 +1,14 @@
 Start-Transcript -Path "$ENV:SystemDrive\Stage2.txt" -IncludeInvocationHeader -Force
 "Bootstrap script started" | Write-Host
-Start-Sleep 60
 
-$DomainDN = (Get-ADDomain).DistinguishedName
+$DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
+if(!$DomainDN) {
+    while(!$DomainDN) {
+        Start-Sleep 5
+        $DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
+    }
+}
+
 $outNull = New-ADOrganizationalUnit -Name "Org" -Path $DomainDN -ErrorAction SilentlyContinue
 
 $SecurePassword = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
