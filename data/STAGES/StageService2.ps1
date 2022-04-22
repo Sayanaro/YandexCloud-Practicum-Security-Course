@@ -2,10 +2,20 @@ Start-Transcript -Path "$ENV:SystemDrive\Stage2.txt" -IncludeInvocationHeader -F
 "Bootstrap script started" | Write-Host
 Import-Module ActiveDirectory
 
+while((Get-Service NTDS).Status -ne "Running") {
+    Strt-Sleep 2
+}
+
+$ADWSStatus = (Get-Service ADWS).Status
+
+if($ADWSStatus -ne "Running") {
+    Start-Service -Name ADWS -Confirm:$false -ErrorAction SilentlyContinue
+}
+
 $DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
 if(!$DomainDN) {
     while(!$DomainDN) {
-        Start-Sleep 5
+        Start-Sleep 10
         $DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
     }
 }
@@ -18,6 +28,7 @@ New-ADUser -Name "Sonya Blade" -Accountpassword $SecurePassword -Enabled $true -
 New-ADUser -Name "Johnny Cage" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "jcage" -DisplayName "Johnny Cage" -Surname "Cage" -GivenName "Johnny" -PasswordNeverExpires $true -UserPrincipalName "jcage@yp-lab.edu" -Description "Network administrator" -ErrorAction SilentlyContinue
 New-ADUser -Name "Hanzo Hasashi" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "scorpion" -DisplayName "Hanzo Hasashi" -Surname "Hasashi" -GivenName "Hanzo" -PasswordNeverExpires $true -UserPrincipalName "scorpion@yp-lab.edu" -Description "Cloud owner" -ErrorAction SilentlyContinue
 New-ADUser -Name "Kuai Liang" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "sub-zero" -DisplayName "Kuai Liang" -Surname "Liang" -GivenName "Kuai" -PasswordNeverExpires $true -UserPrincipalName "sub-zero@yp-lab.edu" -Description "System administrator" -ErrorAction SilentlyContinue
+# Some kind of bug: first user never created.
 New-ADUser -Name "Sonya Blade" -Accountpassword $SecurePassword -Enabled $true -Path "OU=Org, $DomainDN" -SamAccountName "sblade" -DisplayName "Sonya Blade" -Surname "Blade" -GivenName "Sonya" -PasswordNeverExpires $true -UserPrincipalName "sblade@yp-lab.edu" -Description "Security officer" -ErrorAction SilentlyContinue
 
 
