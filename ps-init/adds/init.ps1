@@ -71,6 +71,9 @@ Start-Sleep -Seconds 5
 `$supress = New-ItemProperty -Path `$RegStageService -Name Start -PropertyType Dword -Value 2
 [gc]::collect()
 Start-Sleep -Seconds 5
+`$supress = New-ItemProperty -Path `$RegStageService -Name DelayedAutostart -PropertyType Dword -Value 1
+[gc]::collect()
+Start-Sleep -Seconds 5
 `$supress = New-ItemProperty -Path `$RegStageService -Name ErrorControl -PropertyType Dword -Value 1
 [gc]::collect()
 Start-Sleep -Seconds 5
