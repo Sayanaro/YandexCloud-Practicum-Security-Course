@@ -1,7 +1,8 @@
 Start-Transcript -Path "$ENV:SystemDrive\Stage2.txt" -IncludeInvocationHeader -Force
 "Bootstrap script started" | Write-Host
+Start-Sleep 60
 
-$DomainDN = (Get-ADDomain -Current LoggedOnUser -ErrorAction SilentlyContinue).DistinguishedName
+$DomainDN = (Get-ADDomain).DistinguishedName
 $outNull = New-ADOrganizationalUnit -Name "Org" -Path $DomainDN -ErrorAction SilentlyContinue
 
 $SecurePassword = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
@@ -43,7 +44,7 @@ $Job = Invoke-Command -ComputerName $env:COMPUTERNAME -Credential $Cred -Argumen
     $ADFSName = "YP-LAB ADFS"
     $FSName = "fs.yp-lab.edu"
 
-    $DomainName = (Get-ADDomain -Current LoggedOnUser).DNSRoot
+    #$DomainName = (Get-ADDomain).DNSRoot
     $LocalHostname = $env:ComputerName
     $FQDN = ([System.Net.Dns]::GetHostByName($env:computerName)).Hostname
 
