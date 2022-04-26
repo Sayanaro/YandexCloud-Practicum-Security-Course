@@ -48,7 +48,7 @@ $env:YC_TOKEN="<ваш OAuth Token>"
 
 #### MacOS и Linux:
 ```bash
-export OAUTH_TOKEN=<ваш OAuth Token>
+export YC_TOKEN=<ваш OAuth Token>
 ```
 
 

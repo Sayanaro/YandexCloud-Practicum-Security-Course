@@ -5,16 +5,12 @@ $IPAddress = Get-NetIPAddress -AddressFamily IPv4 | where {$_.InterfaceAlias -no
 $outNull = Set-DNSClientServerAddress -InterfaceIndex $IPAddress.InterfaceIndex -ResetServerAddresses
 $outNull = Set-DNSClientServerAddress -InterfaceIndex $IPAddress.InterfaceIndex -ServerAddresses "127.0.0.1",$IPAddress.IPAddress
 
-Import-Module ActiveDirectory
-
 while((Get-Service NTDS).Status -ne "Running") {
-    Strt-Sleep 2
+    Start-Sleep 2
 }
 
-$ADWSStatus = (Get-Service ADWS).Status
-
-if($ADWSStatus -ne "Running") {
-    Start-Service -Name ADWS -Confirm:$false -ErrorAction SilentlyContinue
+while((Get-Service ADWS).Status -ne "Running") {
+    Start-Sleep 2
 }
 
 $DomainDN = (Get-ADDomain -ErrorAction SilentlyContinue).DistinguishedName
