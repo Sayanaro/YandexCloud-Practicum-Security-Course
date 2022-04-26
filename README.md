@@ -43,7 +43,7 @@ provider_installation {
 
 ### Windows:
 ```PowerShell
-$env=YC_TOKEN="<ваш OAuth Token>"
+$env:YC_TOKEN="<ваш OAuth Token>"
 ```
 
 ### MacOS и Linux:
