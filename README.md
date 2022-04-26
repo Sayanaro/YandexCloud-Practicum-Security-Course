@@ -41,12 +41,12 @@ provider_installation {
 * Перейдём по [ссылке](https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb) для получения OAuth Token. Значение token будет выглядеть примерно так `AQAAAAAABQ0pAATrwPdubkJPerC4mJyaRELWbUY`
 * Сохраним полученное значение Token в переменной окружения (для Windows – PowerShell, MacOS и Linux – bash)
 
-### Windows:
+#### Windows:
 ```PowerShell
 $env:YC_TOKEN="<ваш OAuth Token>"
 ```
 
-### MacOS и Linux:
+#### MacOS и Linux:
 ```bash
 export OAUTH_TOKEN=<ваш OAuth Token>
 ```
