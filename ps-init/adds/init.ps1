@@ -52,7 +52,7 @@ reg add `$RegStageServiceParameters
 reg add `$RegStageServiceSecurity
 reg add `$RegStageService /v Type /t REG_DWORD /d 16
 reg add `$RegStageService /v Start /t REG_DWORD /d 2
-#reg add `$RegStageService /v DelayedAutostart /t REG_DWORD /d 1
+reg add `$RegStageService /v DelayedAutostart /t REG_DWORD /d 1
 reg add `$RegStageService /v ErrorControl /t REG_DWORD /d 1
 reg add `$RegStageService /v WOW64 /t REG_DWORD /d 1
 reg add `$RegStageService /v DisplayName /t REG_SZ /d StageService
