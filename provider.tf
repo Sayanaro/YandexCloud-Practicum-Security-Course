@@ -6,9 +6,12 @@ terraform {
   required_providers {
     yandex = {
       source  = "yandex-cloud/yandex"
-      version = "0.71.0"
+    }
+    ycp = {
+      source = "terraform.storage.cloud-preprod.yandex.net/yandex-cloud/ycp"
     }
   }
+  required_version = ">= 0.13"
 }
 
 provider "yandex" {
