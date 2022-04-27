@@ -92,7 +92,7 @@ $env:YC_FOLDER_ID=$(yc config get folder-id)
 * Выполните:
 ```bash
 yc config profile activate security
-export YC_TOKEN=$(yc iam create-token)
+export YC_TOKEN="ваш OAuth токен"
 export YC_CLOUD_ID=$(yc config get cloud-id)
 export YC_FOLDER_ID=$(yc config get folder-id)
 ```
