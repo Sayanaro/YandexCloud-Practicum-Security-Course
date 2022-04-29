@@ -53,11 +53,21 @@ export YC_TOKEN=<ваш OAuth Token>
 
 
 Создадим профиль в yc для работы с облаком
+
+#### Настройка профиля yc в MacOS и Linux:
 ```bash
 yc config profile create security
 yc config set cloud-id <cloud-id>
 yc config set folder-id <folder-id>
 yc config set token $YC_TOKEN
+```
+
+#### Настройка профиля yc в Windows:
+```PowerShell
+yc config profile create security
+yc config set cloud-id <cloud-id>
+yc config set folder-id <folder-id>
+yc config set token $env:YC_TOKEN
 ```
 
 где вместо `<cloud-id>` нужно указать идентификатор своего облака, а вместо `<folder-id>` нужно указать идентификатор каталога в облаке. Идентификаторы можно получить из консоли облака через веб интерфейс.
@@ -72,7 +82,10 @@ cd YandexCloud-Prcticum-Security-Course
 Сценарий разворачивает контроллер домена Active Directory + ADFS, рабочую станцию ws и инстанс интернет-магазина OpenCart.
 
 Имена виртуальных машин задаются переменными в файле `terraform.tfvars`. Остальные переменные заданы в файле `variables.tf` в параметрах по умолчанию.
- 
+
+> **⚠ ВНИМАНИЕ: не изменяйте имя домена.**  
+> Изменение имени домена Active Directory в сценарии с yp-la.edu на другое приведет к ошибке при конфигурировании ADFS.
+
 Для начала зададим переменные окружения:
  
 #### Windows:
@@ -102,5 +115,11 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 terraform init
 terraform apply
 ```
- 
+
+Сценарий попросит ввести пароль администратора. Пароль должен быть не менее 8 символов, содержать строчные и заглавные буквы, минимум одну цифру 0-9 и минимум один спецсимвол (@#$%&*/:;"'\,.?+=-_).
+
 Спустя 25 минут окружение будет настроено и готово к работе.
+
+Дальнейшая работа будет проводиться на ВМ ws для демонстрации создания федерации.
+
+Логин администратора домена: administrator@yp-lab.edu
